@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {ButtonGroup,Navbar,Nav,Container,Form,Button,Table,InputGroup,FormControl,Row,Col,Image} from 'react-bootstrap';
+import {Alert,ButtonGroup,Navbar,Nav,Container,Form,Button,Table,InputGroup,FormControl,Row,Col,Image} from 'react-bootstrap';
 import { Link,Route,Switch,useHistory }from 'react-router-dom';
 import { useState } from 'react';
 import { width } from 'dom-helpers';
@@ -118,6 +118,14 @@ function App() {
 }
 
 function Register(props){
+
+  let [registerInfo,setRegisterInfo]=useState({email:"",pw:"",checkpw:"",name:"",phonenum:""})
+  let [registerCheck,setRegisterCheck]=useState([false,false,false])
+  let [비번일치,비번일치변경]=useState(true)
+
+  
+
+
   return(
     <div className="Form">
       
@@ -129,11 +137,19 @@ function Register(props){
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="비밀번호" />
+            <Form.Control type="password" placeholder="비밀번호"  onChange={(e)=>{
+              let copy = {...registerInfo}
+              delete copy.pw
+              setRegisterInfo({...copy,pw:e.target.value})
+            }}/>
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="비밀번호 확인" />
+            <Form.Control type="password" placeholder="비밀번호 확인"  onChange={(e)=>{
+              let copy = {...registerInfo}
+              delete copy.checkpw
+              setRegisterInfo({...copy,checkpw:e.target.value})
+            }}/>
           </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -157,11 +173,26 @@ function Register(props){
         
         
 
-  <Button className="Button" variant="secondary" size="lg" onClick={()=>{props.history.push("/")}}>
+  <Button className="Button" variant="secondary" size="lg" 
+  onClick={()=>{
+      registerInfo.pw===registerInfo.checkpw
+      ? props.history.push("/")
+      : 비번일치변경(false)
+      
+    
+    }}>
   동의하고 가입하기
   </Button>
-
+      
       </Form>
+      
+      {
+        비번일치===true
+        ?null
+        :<Alert variant="danger">
+        비밀번호가 일치하지 않습니다
+      </Alert>
+      }
   
     </div>
   )
@@ -171,14 +202,15 @@ function Main(){
   return (
     <div className="Main">
 
-<Form.Group controlId="formFile" className="mb-3">
-<Image  className="temp" src="img/record.png"  />
-<br/>
-    <Form.Label>변환할 음성파일을 선택하세요</Form.Label>
-    <Form.Control type="file" />
-  </Form.Group>
+      <Form.Group controlId="formFile" className="mb-3">
+      <Image  className="temp" src="img/record.png"  />
+      <br/>
+          <Form.Label>변환할 음성파일을 선택하세요</Form.Label>
+          <Form.Control type="file" />
+        </Form.Group>
 
       <Container>
+        <div style={{paddingTop:"1vh"}}/>
       <Image  className="temp" src="img/exchange.png"  />
         <Row>
         <ButtonGroup size="lg" className="mb-2">
