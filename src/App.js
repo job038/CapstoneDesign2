@@ -34,9 +34,7 @@ function App() {
           </Container>
        </Navbar>
 
-       <div className="Jumbotron">
-          <h1 className="JumboText">손쉽게 회의록을 관리하세요</h1> 
-       </div>
+       
 
 
       <Switch>
@@ -49,7 +47,7 @@ function App() {
       </Route> 
 
       <Route path="/register">
-        <Register/>
+        <Register history={history}/>
       </Route>
 
       <Route path="/minutes">
@@ -87,6 +85,9 @@ function App() {
       </Route>
 
       <Route path="/">
+      <div className="Jumbotron">
+          <h1 className="JumboText">손쉽게 회의록을 관리하세요</h1> 
+       </div>
         <Form className="Form">
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control type="email" placeholder="e-mail" onChange={(e)=>{이메일변경(e.target.value)}} />
@@ -116,7 +117,7 @@ function App() {
   );
 }
 
-function Register(){
+function Register(props){
   return(
     <div className="Form">
       
@@ -156,7 +157,7 @@ function Register(){
         
         
 
-  <Button className="Button" variant="secondary" size="lg">
+  <Button className="Button" variant="secondary" size="lg" onClick={()=>{props.history.push("/")}}>
   동의하고 가입하기
   </Button>
 
@@ -171,17 +172,20 @@ function Main(){
     <div className="Main">
 
 <Form.Group controlId="formFile" className="mb-3">
+<Image  className="temp" src="img/record.png"  />
+<br/>
     <Form.Label>변환할 음성파일을 선택하세요</Form.Label>
     <Form.Control type="file" />
   </Form.Group>
 
       <Container>
+      <Image  className="temp" src="img/exchange.png"  />
         <Row>
-        <Image  className="temp" src="img/changeicon.png" fluid />
-          <Button variant="success">텍스트로 변환</Button>
-          <div style={{paddingTop:"3vw"}}/>
-          <Image className="temp"  src="img/summaryicon.png" fluid />
-          <Button variant="success">회의록 요약</Button>
+        <ButtonGroup size="lg" className="mb-2">
+    <Button variant="outline-secondary"style={{color:"black"}}>회의록 변환</Button>
+    <Button variant="outline-secondary"style={{color:"black"}}>회의록 요약</Button>
+    
+  </ButtonGroup>
         </Row>
       </Container>
       
